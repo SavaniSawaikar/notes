@@ -22,7 +22,7 @@ You want diverse team for a wider range of ideas and fresh perspectives but may 
 
 Quality of user experience is important, build something that's enjoyable, exciting and pleasurable to use
 
-* * Chat GPT summary of the 'technology as an experience framework': 
+__ Chat GPT summary of the 'technology as an experience framework': __
 * User-Centered Focus: Prioritize the user's needs, emotions, and perspectives. Consider how they interact with the technology and how it fits into their daily lives.
 
 * Holistic Experience: Understand that the user's interaction with technology goes beyond mere functionality. It encompasses the entire journey, from initial discovery to eventual obsolescence.
