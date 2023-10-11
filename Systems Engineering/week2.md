@@ -42,3 +42,7 @@ Quality of user experience is important, build something that's enjoyable, excit
 * Iterative Design: The design process should be iterative, involving testing, feedback, and refinement to ensure the technology evolves with the user's needs.
 
 * Future-Proofing: Design with the future in mind. This includes ensuring that technologies can adapt to future trends and changes, and that they remain relevant and usable.
+
+Also consider if the device is pragmatic and hedonist (pragmatic: simple, practical and easy to use, hedonistic: how pleasurable and stimulating)
+
+Understand your users: where they live, what are their motivations, age range, what do they do, what are their expectations, being aware of their sensitivities, cultural differences, disabilities
