@@ -12,3 +12,5 @@
 |Black Rock        |            |Do OA       |
 |Jane Street       |            |Under Review|
 |Morgan Stanley    |            |Do OA       |
+|JP Morgan         |            |Under Review|
+|Netcraft          |            |Under Review|
