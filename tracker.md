@@ -10,5 +10,7 @@
 |Jane Street       |            |lmaoooooo   |Summer |
 |Morgan Stanley    |            |Test Done   |Spring |
 |JP Morgan         |    asap    |hirevue?    |Spring |
-|Barclays          |  16/10/23  |testtest    |Summer |
+|Barclays          |  20/10/23  |DO actual OA|Summer |
 |Ocado             |            |lmaooo      |Summer |
+|Palantir - FDSE   |            |Under Review|Summer |
+|Hubspot           |            |Under Review|Summer |
