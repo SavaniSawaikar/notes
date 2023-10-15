@@ -11,6 +11,7 @@ Logic
 - Look at the letcure from today
 - Make corrections for problem sheet 1
 - do the old exercises problem sheet
+- finish problem sheet 2
 
 Software
 - Look at slides
