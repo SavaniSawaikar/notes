@@ -10,9 +10,9 @@ formula: proposition, ~formula, (f1 o f2) - binary, (f1 \/ f2), (f1 /\ f2), (f1 
 
 
 Forms of formulae:
-/\ = alpha
-\/ = beta
--> = beta
+- /\ = alpha
+- \/ = beta
+- -> = beta
 
 To check validity: 
 - negate, if tableau closes then it's valid otherwise not valid

@@ -14,4 +14,4 @@
 |Ocado             |            |lmaooo      |Summer |
 |Palantir - FDSE   |            |Under Review|Summer |
 |Hubspot           |            |Under Review|Summer |
-|Softwire          |     ASAP  c |Do OA       |Summer |
+|Softwire          |     ASAP   |Do OA       |Summer |
