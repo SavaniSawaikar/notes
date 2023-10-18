@@ -17,10 +17,6 @@ Software
 - Look at slides
 - Additional reading material (Docker, github, getting a CI up)
 
-CV
-- Edit CV
-- Mass apply
-
 Other
 - Fill in the intro fellowship form for EA and do research for it
 - Start self project for webaite

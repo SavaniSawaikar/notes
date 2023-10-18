@@ -45,3 +45,6 @@ You can use the following methods to get a DNF:
 ![Alt Example 1](image-4.png)
 
 ![Alt Example 2](image-5.png)
+
+**How to get a CNF**
+![Alt](image-6.png)
