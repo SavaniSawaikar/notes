@@ -21,6 +21,7 @@ To check validity:
 ALPHA:
 - create one leaf below the other in the tableau
 - conjunctions (and)
+- double negations
 ![Alt alpha formulae](image.png)
 
 BETA:
@@ -48,3 +49,12 @@ You can use the following methods to get a DNF:
 
 **How to get a CNF**
 ![Alt](image-6.png)
+
+**Method:**
+1. Negate the formula
+2. Build the tableau tree: Simplifying it becomes 
+3. Checking for closure: Assuming there’s no contradiction in branches, the tableau remains open.
+4. Create the CNF: The CNF would be derived from the open branches of the tableau.
+5. Simplify the CNF: Ensure that the CNF is in its simplest form.
+6. Easier to check if a CNF is valid and if a DNF is satisfiable (linear time for the DNF one)
+
