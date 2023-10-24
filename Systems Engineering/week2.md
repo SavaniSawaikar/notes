@@ -121,3 +121,4 @@ Concrete Design: Detail of the product
 
 ![Alt Simple Design Model](image-5.png)
 - There's something called the google design sprint that aims to do the above in 5 days but it doesn't result in a robust product obviously but meets atleast some customer expectations and you know if you are heading in the right direction
+
