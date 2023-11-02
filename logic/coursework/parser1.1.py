@@ -1,17 +1,32 @@
 class Parser:
-    def __init__(self, formula):
-        self.formula = formula
 
-    def create_tableau(self):
-        pass
+    final_output = []
 
+    parse_outputs = ['not a formula',
+                'an atom',
+                '',
+                
+                
+                'a binary connective first order formula',
+                'a proposition',
+                'a negation of a propositional formula',
+                'a binary connective propositional formula']
+    
+    parse_outputs = {
+        "~": "a negation of a first order logic formula",
+        "A": "a universally quantified formula",
+        "E": "an existentially quantified formula",
+        
+    }
 
-class BinaryTree:
-    def __init__(self):
-        self.head = None
+    def __init__(self, input_string):
+        self.input_string = input_string
 
-    def add_Edge(self, type):
-        pass
+    def read_string(self):
+        for character in self.input_string:
+            self.formula_parser(character)
 
-    def add_Node(self, value):
-        pass
+    def formula_parser(self):
+        
+
+    

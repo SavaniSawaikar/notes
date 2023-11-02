@@ -1,0 +1,2 @@
+- stochastic principles arent considered
+- complete readings for weeks 0, 1, 2

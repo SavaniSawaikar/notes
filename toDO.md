@@ -1,23 +1,26 @@
-Systems
-- HCI reading 
-- HCI lecture videos
+Software:
+- read through slides for today/ lecture
+- Refactor the code 
+- Build the parser
 
-Security
-- Look at the lecture videos and make notes
-- Do the tutorial problem sheet
-
-Logic
-- Go through the slides
-- Look at the letcure from today
-- Make corrections for problem sheet 1
-- do the old exercises problem sheet
-- finish problem sheet 2
-
-Software
-- Look at slides
-- Additional reading material (Docker, github, getting a CI up)
-
-Other
-- Fill in the intro fellowship form for EA and do research for it
-- Start self project for webaite
+Security:
+- Watch lecture videos weeks 1-4
+- Do tutorials 2-4
   
+Systems:
+- Do the HCI reading chapters 2, 8, 11, 12
+- Watch the HCI videos
+- Finish off the HCI powerpoint
+- Do the whole project segmentation
+
+Logic:
+- Watch today's lecture 
+- Go through axiomatic slides
+- Do problem sheet 4
+
+Other:
+- Do AI safety reading (0, 1, 2)
+- Do the OAs, set up interview
+- Do leetcode 75
+- break down systems stuff for ui so that we have set of requirments for each team
+- learn C++ microsoft visual

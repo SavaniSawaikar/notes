@@ -56,7 +56,7 @@ Understand your users: where they live, what are their motivations, age range, w
 - Good utility (to what extent does the tool provide the right kind of functionality, does the tool provide an appropriate set of functions to the user)
 - Easy to remember how to use
 - Safe to use (protecting the user from dangerous conditions - prevent the user from making serious errors by removing too many button options, give the user a way to be able to recover should they make erors)
-- memorabilit (how easy it is to remember how to use to the product once you've learnt it)
+- memorability (how easy it is to remember how to use to the product once you've learnt it)
 
 Follow some usability criterias like:
 - time taken to complete a task (efficiency)

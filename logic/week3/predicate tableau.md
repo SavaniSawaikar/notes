@@ -15,3 +15,7 @@
 - Have a for all OR a negated existential
 - Don't tick because when substituting x for a closed term t, you're only checking one case and there are several more
 ![Alt text](image-8.png)
+
+Do all the Alphas before the gamma and deltas
+
+If a formula never closes, the root formula is satisfiable even if the tableau never closes

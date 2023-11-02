@@ -2,17 +2,22 @@
 |------------------|------------|------------|-------|
 |Google STEP       |            |Under Review|Summer |
 |AMEX              |            |Under Review|Summer?|
-|Natwest           |  21/10/23  |Do the thing|Summer |
-|Maven             |            |Under Review|idk    |
-|Mayfair           |            |Under Review|Summer?|
-|Citadel           |  24/10/23  |Do OA lmao  |Summer |
+|Maven             |            |OAs done    |Summer |
 |Black Rock        |            |hirevue done|Spring |
 |Jane Street       |            |lmaoooooo   |Summer |
 |Morgan Stanley    |            |Test Done   |Spring |
 |JP Morgan         |            |hirevue done|Spring |
-|Barclays          |  19/10/23  |DO actual OA|Summer |
+|Barclays          |            |OA done     |Summer |
 |Ocado             |            |lmaooo      |Summer |
-|Palantir - FDSE   |  20/10/23  |lmaooo      |Summer |
-|Hubspot           |            |Under Review|Summer |
-|Softwire          |    ASAP    |Do OA       |Summer |
-|Trade Desk        |  22/10/23  |Do OA       |Summer |
+|Softwire          |            |int done    |Summer |
+|Natwest           |            |OA done     |Summer |
+|Capital One       |            |Video done  |Summer |
+|Bloomberg         |            |Under Review|Summer |
+|Cisco Meraki      |            |Under Review|Summer |
+|Amadeus           |            |Under Review|Summer |
+|Microsoft         |            |Under Review|Summer |
+|UBS               |            |Under Review|Summer |
+|BNY MEllon        |            |Under Review|Summer |
+|BAE Systems       |            |Under Review|Summer |
+
+- learn rest api get requests and getting data from csv files(pandas)
