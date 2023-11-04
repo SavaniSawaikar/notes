@@ -1,7 +1,7 @@
 |Event             | Days/ Date | Progress   | Type  |
 |------------------|------------|------------|-------|
-|Google STEP       |            |Under Review|Summer |
-|AMEX              |            |Under Review|Summer?|
+|Google STEP       |  04/11/23  |Do form     |Summer |
+|AMEX              |  08/11/23  |Under Review|Summer?|
 |Maven             |            |OAs done    |Summer |
 |Black Rock        |            |hirevue done|Spring |
 |Jane Street       |            |lmaoooooo   |Summer |
@@ -16,8 +16,8 @@
 |Cisco Meraki      |            |Under Review|Summer |
 |Amadeus           |            |Under Review|Summer |
 |Microsoft         |            |Under Review|Summer |
-|UBS               |            |Under Review|Summer |
+|UBS               |  09/11     |Do OA       |Summer |
 |BNY MEllon        |            |Under Review|Summer |
-|BAE Systems       |            |Under Review|Summer |
+|BAE Systems       |  09/11     |Do OA       |Summer |
 
 - learn rest api get requests and getting data from csv files(pandas)
