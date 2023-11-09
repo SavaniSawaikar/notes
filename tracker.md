@@ -1,23 +1,28 @@
 |Event             | Days/ Date | Progress   | Type  |
 |------------------|------------|------------|-------|
-|Google STEP       |  04/11/23  |Do form     |Summer |
-|AMEX              |  08/11/23  |Under Review|Summer?|
-|Maven             |            |OAs done    |Summer |
+|Google STEP       |            |Form done   |Summer |
+|AMEX              |  08/11/23  |Do interview|Summer?|
 |Black Rock        |            |hirevue done|Spring |
 |Jane Street       |            |lmaoooooo   |Summer |
 |Morgan Stanley    |            |Test Done   |Spring |
 |JP Morgan         |            |hirevue done|Spring |
 |Barclays          |            |OA done     |Summer |
 |Ocado             |            |lmaooo      |Summer |
-|Softwire          |            |int done    |Summer |
+|Softwire          | 21/11/23   |Interview   |Summer |
 |Natwest           |            |OA done     |Summer |
-|Capital One       |            |Video done  |Summer |
-|Bloomberg         |            |Under Review|Summer |
+|Bloomberg         | 20/11/23   |Interview   |Summer |
 |Cisco Meraki      |            |Under Review|Summer |
 |Amadeus           |            |Under Review|Summer |
 |Microsoft         |            |Under Review|Summer |
-|UBS               |  09/11     |Do OA       |Summer |
 |BNY MEllon        |            |Under Review|Summer |
-|BAE Systems       |  09/11     |Do OA       |Summer |
+|BAE Systems       |            |OA done     |Summer |
+|Heron Data        |  13/11/23  |Quick Chat  |Summer |
+|Siemens           |            |Under Review|Summer |
+|BlackStone        |            |Under Review|Summer |
+|Matlab            |  14/11/23  |Reply to lad|Summer |
+|Arm               |            |Under Review|Summer |
+|Citi              |            |Passed screen|Spring|
+|GE Research       |            |Under Review|Summer |
 
+- apply to google deepmind student research program, opens on 20/11/23
 - learn rest api get requests and getting data from csv files(pandas)
