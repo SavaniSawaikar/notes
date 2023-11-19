@@ -135,12 +135,12 @@ def check_matching_brackets(fmla):
 
 # Parse a formula, consult parseOutputs for return values.
 def parse(fmla):
-    if Proposition(fmla).is_fmla():
-        return Proposition(fmla).parse()
-    elif FirstOrderLogic(fmla).is_fmla():
+    if FirstOrderLogic(fmla).is_fmla():
         return FirstOrderLogic(fmla).parse()
+    elif Proposition(fmla).is_fmla():
+        return Proposition(fmla).parse()
     else:
-        return fmla + " is " + parseOutputs[0]
+        return 0
 
 # Return the LHS of a binary connective formula
 def lhs(fmla):

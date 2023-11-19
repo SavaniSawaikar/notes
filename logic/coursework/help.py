@@ -88,7 +88,9 @@ class FirstOrderLogic:
         return self.fmla.startswith('~') and FirstOrderLogic(self.fmla[1:]).is_fmla()
 
     def is_universally_quantified(self):
-        return self.fmla.startswith('A') and self.fmla[1] in ['x', 'y', 'z', 'w'] and FirstOrderLogic(self.fmla[2:]).is_fmla()
+        if len(self.fmla) > 2 and self.fmla.startswith('A') and self.fmla[1] in ['x', 'y', 'z', 'w']:
+            return FirstOrderLogic(self.fmla[2:]).is_fmla()
+        return False
 
     def is_existentially_quantified(self):
         return self.fmla.startswith('E') and self.fmla[1] in ['x', 'y', 'z', 'w'] and FirstOrderLogic(self.fmla[2:]).is_fmla()
@@ -200,37 +202,116 @@ def con(fmla):
 def theory(fmla):#initialise a theory with a single formula in it
     return [fmla]
 
-def expanded(fmla):
-    pass
+class FmlaTypes:
 
-def contradict(fmla):
-    pass
+    @staticmethod
+    def alpha(fmla, tableau):
+        # Alpha expansion: Adding two formulas to the current branch
+        new_elems = [lhs(fmla), rhs(fmla)]
+        tableau.append([*tableau.pop(), *new_elems])
+
+    @staticmethod
+    def beta(fmla, tableau):
+        # Beta expansion: Creating two new branches
+        left_branch = [*tableau.pop(), lhs(fmla)]
+        right_branch = [*tableau.pop(), rhs(fmla)]
+        tableau.extend([left_branch, right_branch])
+
+    @staticmethod
+    def gamma(fmla, tableau, constants):
+        # Gamma expansion: For universally quantified formulas
+        if fmla.startswith('A'):
+            variable = fmla[1]
+            for constant in constants:
+                new_fmla = fmla[2:].replace(variable, constant)
+                if new_fmla not in tableau:
+                    tableau.append(new_fmla)
+
+    @staticmethod
+    def delta(fmla, tableau, constant_count, constants):
+        # Delta expansion: For existentially quantified formulas
+        if fmla.startswith('E'):
+            variable = fmla[1]
+            new_constant = get_new_constant(constants)
+            new_fmla = fmla[2:].replace(variable, new_constant)
+            if new_fmla not in tableau:
+                tableau.append(new_fmla)
+                constants.append(new_constant)
+                constant_count += 1
+        return constant_count, constants
+
+def get_new_constant(existing_constants):
+    for char in 'abcdefghijklmnopqrstuvwxyz':
+        if char not in existing_constants:
+            return char
+    raise Exception("Exhausted all possible constants")
+
+def is_closed(tableau):
+    for branch in tableau:
+        for fmla in branch:
+            if contradict(fmla, branch):
+                return True
+    return False
+
+def expanded(tableau):
+    for branch in tableau:
+        for fmla in branch:
+            if is_non_literal(fmla):
+                return False
+    return True
+
+def contradict(fmla, branch):
+    negation = '~' + fmla if not fmla.startswith('~') else fmla[1:]
+    return negation in branch
 
 def is_non_literal(fmla):
-    pass
-
-dict_fmla_types = {
-    'alpha' : 
-}
+    return FirstOrderLogic(fmla).is_binary_connective() or \
+           Proposition(fmla).is_binary_connective() or \
+           FirstOrderLogic(fmla).is_universally_quantified() or \
+           FirstOrderLogic(fmla).is_existentially_quantified()
 
 def sat(tableau):
-    tab = theory(tableau)
-    while tab:
-        sigma = tab.pop(0)
-        if expanded(sigma) and not contradict(sigma):
-            return 1
-        else:
-            for k in sigma:
-                if is_non_literal(k):
-                    switch(k):
+    constants = ['a', 'b', 'c', 'd']  # Initial set of constants
+    while tableau:
+        sigma = tableau.pop(0)
+        constant_count = 0
 
+        if expanded(sigma) and not is_closed(sigma):
+            return 1  # satisfiable
 
+        for phi in sigma:
+            if is_non_literal(phi):
+                # Apply the correct expansion rule
+                fmla_type = determine_fmla_type(phi)
+                if fmla_type == 'alpha':
+                    FmlaTypes.alpha(phi, sigma)
+                elif fmla_type == 'beta':
+                    FmlaTypes.beta(phi, sigma)
+                elif fmla_type == 'gamma':
+                    FmlaTypes.gamma(phi, sigma, constants)
+                elif fmla_type == 'delta':
+                    constant_count, constants = FmlaTypes.delta(phi, sigma, constant_count, constants)
 
+            if constant_count > MAX_CONSTANTS:
+                return 2  # undetermined
 
+    return 0  # not satisfiable
+
+def determine_fmla_type(fmla):
+    # Logic to determine the formula type (alpha, beta, gamma, delta)
+    if Proposition(fmla).is_binary_connective() or FirstOrderLogic(fmla).is_binary_connective():
+        return 'alpha' if con(fmla) == '/\\' else 'beta'
+    elif FirstOrderLogic(fmla).is_universally_quantified():
+        return 'gamma'
+    elif FirstOrderLogic(fmla).is_existentially_quantified():
+        return 'delta'
+    return ''
 
 with open('input.txt', 'r') as f:
     for line in f:
-        print(lhs(line) + "   " + con(line) + "   " + rhs(line))
+        print(parse(line), "     " + satOutput[sat(theory(line))])
 
 # fol = FirstOrderLogic("(AxAyEz(P(x,z)/\P(z,y))/\ExP(x,x))")
 # print(fol.parse())
+
+# print(parse('(~p=>p)'), "  " , satOutput[sat(theory('(~p=>p)'))])
