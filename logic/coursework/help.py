@@ -93,7 +93,9 @@ class FirstOrderLogic:
         return False
 
     def is_existentially_quantified(self):
-        return self.fmla.startswith('E') and self.fmla[1] in ['x', 'y', 'z', 'w'] and FirstOrderLogic(self.fmla[2:]).is_fmla()
+        if len(self.fmla) > 2 and self.fmla.startswith('E') and self.fmla[1] in ['x', 'y', 'z', 'w']:
+            return FirstOrderLogic(self.fmla[2:]).is_fmla()
+        return False
 
     def is_binary_connective(self):
         if not (self.fmla.startswith('(') and self.fmla.endswith(')')):
@@ -254,6 +256,7 @@ def is_closed(tableau):
     return False
 
 def expanded(tableau):
+    print(tableau)
     for branch in tableau:
         for fmla in branch:
             if is_non_literal(fmla):
@@ -265,13 +268,16 @@ def contradict(fmla, branch):
     return negation in branch
 
 def is_non_literal(fmla):
-    return FirstOrderLogic(fmla).is_binary_connective() or \
-           Proposition(fmla).is_binary_connective() or \
-           FirstOrderLogic(fmla).is_universally_quantified() or \
-           FirstOrderLogic(fmla).is_existentially_quantified()
+    prop = Proposition(fmla)
+    fol = FirstOrderLogic(fmla)
+
+    return (prop.is_binary_connective() is not None) or \
+           fol.is_binary_connective() or \
+           fol.is_universally_quantified() or \
+           fol.is_existentially_quantified()
 
 def sat(tableau):
-    constants = ['a', 'b', 'c', 'd']  # Initial set of constants
+    print(tableau)
     while tableau:
         sigma = tableau.pop(0)
         constant_count = 0
@@ -298,20 +304,21 @@ def sat(tableau):
     return 0  # not satisfiable
 
 def determine_fmla_type(fmla):
-    # Logic to determine the formula type (alpha, beta, gamma, delta)
-    if Proposition(fmla).is_binary_connective() or FirstOrderLogic(fmla).is_binary_connective():
-        return 'alpha' if con(fmla) == '/\\' else 'beta'
-    elif FirstOrderLogic(fmla).is_universally_quantified():
-        return 'gamma'
-    elif FirstOrderLogic(fmla).is_existentially_quantified():
-        return 'delta'
-    return ''
+    prop = Proposition(fmla)
+    fol = FirstOrderLogic(fmla)
 
-with open('input.txt', 'r') as f:
-    for line in f:
-        print(parse(line), "     " + satOutput[sat(theory(line))])
+    if prop.is_binary_connective() or fol.is_binary_connective():
+        return 'alpha' if con(fmla) == '/\\' else 'beta'
+    elif fol.is_universally_quantified():
+        return 'gamma'
+    elif fol.is_existentially_quantified():
+        return 'delta'
+
+# with open('input.txt', 'r') as f:
+#     for line in f:
+#         print(line + "     " + satOutput[sat(theory(line))])
 
 # fol = FirstOrderLogic("(AxAyEz(P(x,z)/\P(z,y))/\ExP(x,x))")
 # print(fol.parse())
 
-# print(parse('(~p=>p)'), "  " , satOutput[sat(theory('(~p=>p)'))])
+print(parse('(~p=>p)'), "  " , satOutput[sat(theory('(~p=>p)'))])
