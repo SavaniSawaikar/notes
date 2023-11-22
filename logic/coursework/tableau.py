@@ -22,13 +22,13 @@ class Proposition:
         if not (self.fmla.startswith('(') and self.fmla.endswith(')')):
             return None
 
-        open_brackets = 0
+        brackets = 0
         for i in range(1, len(self.fmla) - 1):
             if self.fmla[i] == '(':
-                open_brackets += 1
+                brackets += 1
             elif self.fmla[i] == ')':
-                open_brackets -= 1
-            elif open_brackets == 0:  # Potential binary connective at top level
+                brackets -= 1
+            elif brackets == 0:  # Potential binary connective at top level
                 for conn in connectives:
                     if self.fmla[i:i+len(conn)] == conn:
                         left = self.fmla[1:i]
@@ -85,13 +85,13 @@ class FirstOrderLogic:
         if not (self.fmla.startswith('(') and self.fmla.endswith(')')):
             return None
 
-        open_brackets = 0
+        brackets = 0
         for i in range(1, len(self.fmla) - 1):
             if self.fmla[i] == '(':
-                open_brackets += 1
+                brackets += 1
             elif self.fmla[i] == ')':
-                open_brackets -= 1
-            elif open_brackets == 0:
+                brackets -= 1
+            elif brackets == 0:
                 for conn in ['=>', '/\\', '\\/']:
                     if self.fmla[i:i+len(conn)] == conn:
                         left = self.fmla[1:i]
