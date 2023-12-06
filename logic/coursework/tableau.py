@@ -190,10 +190,115 @@ def rhs(fmla):
 def theory(fmla):#initialise a theory with a single formula in it
     return [fmla]
 
-#check for satisfiability
+
+class FmlaTypes:
+
+    @staticmethod
+    def alpha(fmla, tableau):
+        # Alpha expansion: Adding two formulas to the current branch
+        new_elems = [lhs(fmla), rhs(fmla)]
+        tableau.append([*tableau.pop(), *new_elems])
+
+    @staticmethod
+    def beta(fmla, tableau):
+        # Beta expansion: Creating two new branches
+        left_branch = [*tableau.pop(), lhs(fmla)]
+        right_branch = [*tableau.pop(), rhs(fmla)]
+        tableau.extend([left_branch, right_branch])
+
+    @staticmethod
+    def gamma(fmla, tableau, constants):
+        # Gamma expansion: For universally quantified formulas
+        if fmla.startswith('A'):
+            variable = fmla[1]
+            for constant in constants:
+                new_fmla = fmla[2:].replace(variable, constant)
+                if new_fmla not in tableau:
+                    tableau.append(new_fmla)
+
+    @staticmethod
+    def delta(fmla, tableau, constant_count, constants):
+        # Delta expansion: For existentially quantified formulas
+        if fmla.startswith('E'):
+            variable = fmla[1]
+            new_constant = get_new_constant(constants)
+            new_fmla = fmla[2:].replace(variable, new_constant)
+            if new_fmla not in tableau:
+                tableau.append(new_fmla)
+                constants.append(new_constant)
+                constant_count += 1
+        return constant_count, constants
+    
+def get_new_constant(existing_constants):
+    for char in 'abcdefghijklmnotuv':
+        if char not in existing_constants:
+            return char
+    raise Exception("Exhausted all possible constants")
+
+
+def is_non_literal(fmla):
+    prop = Proposition(fmla)
+    fol = FirstOrderLogic(fmla)
+
+    return (prop.is_binary_connective() is not None) or \
+           fol.is_binary_connective() or \
+           fol.is_universally_quantified() or \
+           fol.is_existentially_quantified()
+
+def is_closed(tableau):
+    for branch in tableau:
+        for fmla in branch:
+            if contradict(fmla, branch):
+                return True
+    return False
+
+def expanded(tableau):
+    for branch in tableau:
+        for fmla in branch:
+            if is_non_literal(fmla):
+                return False
+    return True
+
+def contradict(fmla, branch):
+    negation = '~' + fmla if not fmla.startswith('~') else fmla[1:]
+    return negation in branch
+
+# Update the handling of tableau in sat function
 def sat(tableau):
-#output 0 if not satisfiable, output 1 if satisfiable, output 2 if number of constants exceeds MAX_CONSTANTS
-    return 0
+    while tableau:
+        for branch in tableau:
+            constant_count = 0
+            if expanded(branch) and not is_closed(branch):
+                return 1  # satisfiable
+
+            for phi in branch:
+                if is_non_literal(phi):
+                    # Apply the correct expansion rule
+                    fmla_type = determine_fmla_type(phi)
+                    if fmla_type == 'alpha':
+                        FmlaTypes.alpha(phi, tableau)
+                    elif fmla_type == 'beta':
+                        FmlaTypes.beta(phi, tableau)
+                    elif fmla_type == 'gamma':
+                        FmlaTypes.gamma(phi, tableau, constants)
+                    elif fmla_type == 'delta':
+                        constant_count, constants = FmlaTypes.delta(phi, tableau, constant_count, constants)
+
+                if constant_count > MAX_CONSTANTS:
+                    return 2  # undetermined
+
+    return 0  # not satisfiable
+
+def determine_fmla_type(fmla):
+    prop = Proposition(fmla)
+    fol = FirstOrderLogic(fmla)
+
+    if prop.is_binary_connective() or fol.is_binary_connective():
+        return 'alpha' if con(fmla) == '/\\' else 'beta'
+    elif fol.is_universally_quantified():
+        return 'gamma'
+    elif fol.is_existentially_quantified():
+        return 'delta'
 
 #DO NOT MODIFY THE CODE BELOW
 f = open('input.txt')

@@ -1,16 +1,4 @@
 
-parseOutputs = ['not a formula',
-                'an atom',
-                'a negation of a first order logic formula',
-                'a universally quantified formula',
-                'an existentially quantified formula',
-                'a binary connective first order formula',
-                'a proposition',
-                'a negation of a propositional formula',
-                'a binary connective propositional formula']
-    
-satOutput = ['is not satisfiable', 'is satisfiable', 'may or may not be satisfiable']
-
 MAX_CONSTANTS = 10
 
 class Proposition:
@@ -34,13 +22,13 @@ class Proposition:
         if not (self.fmla.startswith('(') and self.fmla.endswith(')')):
             return None
 
-        open_brackets = 0
+        brackets = 0
         for i in range(1, len(self.fmla) - 1):
             if self.fmla[i] == '(':
-                open_brackets += 1
+                brackets += 1
             elif self.fmla[i] == ')':
-                open_brackets -= 1
-            elif open_brackets == 0:  # Potential binary connective at top level
+                brackets -= 1
+            elif brackets == 0:  # Potential binary connective at top level
                 for conn in connectives:
                     if self.fmla[i:i+len(conn)] == conn:
                         left = self.fmla[1:i]
@@ -62,14 +50,14 @@ class Proposition:
     def parse(self):
         # Check if it is actually a formula
         if not self.is_fmla():
-            return self.fmla + " is " + parseOutputs[0]
+            return 0
         if self.is_negation():
-            return self.fmla + " is " +  parseOutputs[7]
+            return 7
         elif self.is_binary_connective():
-            return self.fmla + " is " + parseOutputs[8]
+            return 8
         elif self.is_proposition():
-            return self.fmla + " is " + parseOutputs[6]
-    
+            return 6
+
 class FirstOrderLogic:
     def __init__(self, fmla):
         self.fmla = fmla.strip()
@@ -88,26 +76,22 @@ class FirstOrderLogic:
         return self.fmla.startswith('~') and FirstOrderLogic(self.fmla[1:]).is_fmla()
 
     def is_universally_quantified(self):
-        if len(self.fmla) > 2 and self.fmla.startswith('A') and self.fmla[1] in ['x', 'y', 'z', 'w']:
-            return FirstOrderLogic(self.fmla[2:]).is_fmla()
-        return False
+        return self.fmla.startswith('A') and self.fmla[1] in ['x', 'y', 'z', 'w'] and FirstOrderLogic(self.fmla[2:]).is_fmla()
 
     def is_existentially_quantified(self):
-        if len(self.fmla) > 2 and self.fmla.startswith('E') and self.fmla[1] in ['x', 'y', 'z', 'w']:
-            return FirstOrderLogic(self.fmla[2:]).is_fmla()
-        return False
+        return self.fmla.startswith('E') and self.fmla[1] in ['x', 'y', 'z', 'w'] and FirstOrderLogic(self.fmla[2:]).is_fmla()
 
     def is_binary_connective(self):
         if not (self.fmla.startswith('(') and self.fmla.endswith(')')):
             return None
 
-        open_brackets = 0
+        brackets = 0
         for i in range(1, len(self.fmla) - 1):
             if self.fmla[i] == '(':
-                open_brackets += 1
+                brackets += 1
             elif self.fmla[i] == ')':
-                open_brackets -= 1
-            elif open_brackets == 0:
+                brackets -= 1
+            elif brackets == 0:
                 for conn in ['=>', '/\\', '\\/']:
                     if self.fmla[i:i+len(conn)] == conn:
                         left = self.fmla[1:i]
@@ -123,17 +107,17 @@ class FirstOrderLogic:
 
     def parse(self):
         if not self.is_fmla():
-            return self.fmla + " is " + parseOutputs[0]
+            return 0
         if self.is_predicate():
-            return self.fmla + " is " + parseOutputs[1]
+            return 1
         if self.is_negation():
-            return self.fmla + " is " + parseOutputs[2]
+            return 2
         if self.is_universally_quantified():
-            return self.fmla + " is " + parseOutputs[3]
+            return 3
         if self.is_existentially_quantified():
-            return self.fmla + " is " + parseOutputs[4]
+            return 4
         if self.is_binary_connective():
-            return self.fmla + " is " + parseOutputs[5]
+            return 5
     
 # Check if a formula has matching brackets
 def check_matching_brackets(fmla):
@@ -151,13 +135,12 @@ def check_matching_brackets(fmla):
 
 # Parse a formula, consult parseOutputs for return values.
 def parse(fmla):
-    if Proposition(fmla).is_fmla():
-        return Proposition(fmla).parse()
-    elif FirstOrderLogic(fmla).is_fmla():
+    if FirstOrderLogic(fmla).is_fmla():
         return FirstOrderLogic(fmla).parse()
+    elif Proposition(fmla).is_fmla():
+        return Proposition(fmla).parse()
     else:
-        return fmla + " is " + parseOutputs[0]
-    
+        return 0
 
 # Return the LHS of a binary connective formula
 def lhs(fmla):
@@ -173,20 +156,8 @@ def lhs(fmla):
             return ''
     else:
         return ''
-    
-def rhs(fmla):
-    if FirstOrderLogic(fmla).is_fmla():
-        if FirstOrderLogic(fmla).is_binary_connective():
-            return FirstOrderLogic(fmla).is_binary_connective()[2]
-        else:
-            return ''
-    elif Proposition(fmla).is_fmla():
-        if Proposition(fmla).is_binary_connective():
-            return Proposition(fmla).is_binary_connective()[2]
-        else:
-            return ''
-    return '' 
-    
+
+# Return the connective symbol of a binary connective formula
 def con(fmla):
     if FirstOrderLogic(fmla).is_fmla():
         if FirstOrderLogic(fmla).is_binary_connective():
@@ -199,7 +170,21 @@ def con(fmla):
         else:
             return ''
     return ''
-    
+
+# Return the RHS symbol of a binary connective formula
+def rhs(fmla):
+    if FirstOrderLogic(fmla).is_fmla():
+        if FirstOrderLogic(fmla).is_binary_connective():
+            return FirstOrderLogic(fmla).is_binary_connective()[2]
+        else:
+            return ''
+    elif Proposition(fmla).is_fmla():
+        if Proposition(fmla).is_binary_connective():
+            return Proposition(fmla).is_binary_connective()[2]
+        else:
+            return ''
+    return '' 
+
 # You may choose to represent a theory as a set or a list
 def theory(fmla):#initialise a theory with a single formula in it
     return [fmla]
@@ -241,31 +226,13 @@ class FmlaTypes:
                 constants.append(new_constant)
                 constant_count += 1
         return constant_count, constants
-
+    
 def get_new_constant(existing_constants):
-    for char in 'abcdefghijklmnopqrstuvwxyz':
+    for char in 'abcdefghijklmnotuv':
         if char not in existing_constants:
             return char
     raise Exception("Exhausted all possible constants")
 
-def is_closed(tableau):
-    for branch in tableau:
-        for fmla in branch:
-            if contradict(fmla, branch):
-                return True
-    return False
-
-def expanded(tableau):
-    print(tableau)
-    for branch in tableau:
-        for fmla in branch:
-            if is_non_literal(fmla):
-                return False
-    return True
-
-def contradict(fmla, branch):
-    negation = '~' + fmla if not fmla.startswith('~') else fmla[1:]
-    return negation in branch
 
 def is_non_literal(fmla):
     prop = Proposition(fmla)
@@ -276,32 +243,85 @@ def is_non_literal(fmla):
            fol.is_universally_quantified() or \
            fol.is_existentially_quantified()
 
-def sat(tableau):
-    print(tableau)
-    while tableau:
-        sigma = tableau.pop(0)
-        constant_count = 0
+def is_closed(tableau):
+    for branch in tableau:
+        for fmla in branch:
+            if contradict(fmla, branch):
+                return True
+    return False
 
-        if expanded(sigma) and not is_closed(sigma):
+def expanded(tableau):
+    for branch in tableau:
+        for fmla in branch:
+            if is_non_literal(fmla):
+                return False
+    return True
+
+def contradict(fmla, branch):
+    negation = '~' + fmla if not fmla.startswith('~') else fmla[1:]
+    return negation in branch
+
+global constants
+constants = ['a', 'b', 'c']
+
+def sat(tableau):
+    while tableau:
+        new_tableau = []
+        for branch in tableau:
+            if is_closed(branch) or expanded(branch):
+                new_tableau.append(branch)
+                continue
+
+            for phi in branch:
+                if is_non_literal(phi):
+                    branch.remove(phi)
+                    fmla_type = determine_fmla_type(phi)
+                    if fmla_type == 'alpha':
+                        branch.extend([lhs(phi), rhs(phi)])
+                    elif fmla_type == 'beta':
+                        new_tableau.append(branch + [lhs(phi)])
+                        new_tableau.append(branch + [rhs(phi)])
+                        break
+                    elif fmla_type == 'gamma':
+                        for constant in constants:
+                            new_formula = replace_variable(phi, constant)
+                            if new_formula not in branch:
+                                branch.append(new_formula)
+                    elif fmla_type == 'delta':
+                        new_constant = get_new_constant(constants)
+                        new_formula = replace_variable(phi, new_constant)
+                        if new_formula not in branch:
+                            branch.append(new_formula)
+                            constants.append(new_constant)
+                            if len(constants) > MAX_CONSTANTS:
+                                return 2  # undetermined
+                    break
+            else:
+                new_tableau.append(branch)
+
+        if not new_tableau:
+            return 0  # not satisfiable
+
+        tableau = new_tableau
+
+    for branch in tableau:
+        if not is_closed(branch):
             return 1  # satisfiable
 
-        for phi in sigma:
-            if is_non_literal(phi):
-                # Apply the correct expansion rule
-                fmla_type = determine_fmla_type(phi)
-                if fmla_type == 'alpha':
-                    FmlaTypes.alpha(phi, sigma)
-                elif fmla_type == 'beta':
-                    FmlaTypes.beta(phi, sigma)
-                elif fmla_type == 'gamma':
-                    FmlaTypes.gamma(phi, sigma, constants)
-                elif fmla_type == 'delta':
-                    constant_count, constants = FmlaTypes.delta(phi, sigma, constant_count, constants)
-
-            if constant_count > MAX_CONSTANTS:
-                return 2  # undetermined
-
     return 0  # not satisfiable
+
+
+def replace_variable(fmla, constant):
+    if fmla.startswith('A') or fmla.startswith('E'):
+        variable = fmla[1]
+        scope = fmla[2:]  # Extract the scope of the quantifier
+
+        # Replace only within the scope
+        new_scope = scope.replace(variable, constant)
+        new_fmla = fmla[0:2] + new_scope
+        return new_fmla
+
+    return fmla
 
 def determine_fmla_type(fmla):
     prop = Proposition(fmla)
@@ -314,11 +334,45 @@ def determine_fmla_type(fmla):
     elif fol.is_existentially_quantified():
         return 'delta'
 
-# with open('input.txt', 'r') as f:
-#     for line in f:
-#         print(line + "     " + satOutput[sat(theory(line))])
+#DO NOT MODIFY THE CODE BELOW
+f = open('input.txt')
 
-# fol = FirstOrderLogic("(AxAyEz(P(x,z)/\P(z,y))/\ExP(x,x))")
-# print(fol.parse())
+parseOutputs = ['not a formula',
+                'an atom',
+                'a negation of a first order logic formula',
+                'a universally quantified formula',
+                'an existentially quantified formula',
+                'a binary connective first order formula',
+                'a proposition',
+                'a negation of a propositional formula',
+                'a binary connective propositional formula']
 
-print(parse('(~p=>p)'), "  " , satOutput[sat(theory('(~p=>p)'))])
+satOutput = ['is not satisfiable', 'is satisfiable', 'may or may not be satisfiable']
+
+firstline = f.readline()
+
+PARSE = False
+if 'PARSE' in firstline:
+    PARSE = True
+
+SAT = False
+if 'SAT' in firstline:
+    SAT = True
+
+for line in f:
+    if line[-1] == '\n':
+        line = line[:-1]
+    parsed = parse(line)
+
+    if PARSE:
+        output = "%s is %s." % (line, parseOutputs[parsed])
+        if parsed in [5,8]:
+            output += " Its left hand side is %s, its connective is %s, and its right hand side is %s." % (lhs(line), con(line) ,rhs(line))
+        print(output)
+
+    if SAT:
+        if parsed:
+            tableau = [theory(line)]
+            print('%s %s.' % (line, satOutput[sat(tableau)]))
+        else:
+            print('%s is not a formula.' % line)
